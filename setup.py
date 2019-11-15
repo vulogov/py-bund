@@ -1,3 +1,5 @@
+import os
+
 
 setup(name='bund',
       version='0.1',
