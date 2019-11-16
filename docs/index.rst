@@ -1,10 +1,9 @@
-.. py-bund documentation master file, created by
-   sphinx-quickstart on Fri Nov 15 19:45:30 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
 Welcome to py-bund's documentation!
 ===================================
+
+.. automodule:: bund
+    :members:
 
 .. toctree::
    :maxdepth: 2
