@@ -1,6 +1,6 @@
 # Basic BUND types
 basic_Types = """
-Model: a*= AssignmentDef n*=NameSpaceDef;
+Model: n*=NameSpaceDef a*= AssignmentDef;
 
 NameSpaceDef:
     "[" name=NSID ">"
@@ -10,7 +10,7 @@ NameSpaceDef:
 ;
 
 AssignmentDef:
-    DirectAssignmentDef | ReverseAssignmentDef | DirectLinkingDef | ReverseLinkingDef
+    DirectAssignmentDef | ReverseAssignmentDef | DirectLinkingDef | ReverseLinkingDef | DirectPythonDef | ReversePythonDef
 ;
 
 DirectAssignmentDef:
@@ -19,6 +19,14 @@ DirectAssignmentDef:
 
 ReverseAssignmentDef:
     data=DataDef  ReverseDataAssignmentOp name=NameDef
+;
+
+DirectPythonDef:
+    name=NameDef  DirectPythonAssignmentOp data=NameDef
+;
+
+ReversePythonDef:
+    data=DataDef  ReversePythonAssignmentOp name=NameDef
 ;
 
 DirectLinkingDef:
@@ -44,6 +52,14 @@ DirectDataAssignmentOp:
 
 ReverseDataAssignmentOp:
     "->" | "as"
+;
+
+DirectPythonAssignmentOp:
+    "import" | "<-#"
+;
+
+ReversePythonAssignmentOp:
+    "#->" | "to"
 ;
 
 DirectLinkOp:
@@ -96,5 +112,9 @@ VERY_SPECIAL_TYPE:
 
 DataDef:
     BASETYPE | LIST_TYPE | KV_TYPE | LAMBDA_TYPE | REF_TYPE | CURRY_TYPE | PRELIMENARY_EXECUTE_TYPE | DO_EXECUTE_TYPE | NSID | SPECIAL_TYPE | VERY_SPECIAL_TYPE
+;
+
+Comment:
+    /\\/\\*(.|\n)*?\\*\\// 
 ;
 """

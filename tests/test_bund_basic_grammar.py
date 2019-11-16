@@ -45,6 +45,26 @@ def test_bund_base_grammar_REF():
     mm = metamodel_for_language("basicTypes")
     model = mm.model_from_str('refMe <- `42')
 
+def test_bund_base_grammar_PY1():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('Time import Time')
+
+def test_bund_base_grammar_PY2():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('Time to Time')
+
+def test_bund_base_grammar_PY3():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('Time #-> Time')
+
+def test_bund_base_grammar_PY4():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('Time <-# Time')
+
 def test_bund_base_grammar_CURRY():
     global_repo_provider = grammar()
     mm = metamodel_for_language("basicTypes")
@@ -53,7 +73,7 @@ def test_bund_base_grammar_CURRY():
 def test_bund_base_grammar_DO():
     global_repo_provider = grammar()
     mm = metamodel_for_language("basicTypes")
-    model = mm.model_from_str('doMe <- ( : runMe "Param1" 2 3.14 |5, 6| ; )')
+    model = mm.model_from_str('doMe <- ( :runMe "Param1" 2 3.14 |5, 6| ; )')
     model = mm.model_from_str("""
     doMe <- ( 1 2 3 runMeFromStack 2 curryMe : curryMe 2 ; )
     """)
@@ -142,3 +162,13 @@ def test_bund_base_grammar_NS6():
             ;
         )
     ;;""")
+
+def test_bund_base_grammar_comment():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str("""/* Comment */
+    A <- 0
+    /*
+        Another comment
+    */
+    """)
