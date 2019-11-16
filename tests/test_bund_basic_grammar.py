@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 from textx import metamodel_for_language
 from bund.grammar.bund_Grammar import grammar
