@@ -4,6 +4,7 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.exceptions import InvalidSignature
 from cryptography import x509
+from bund.compiler.pack import pack
 
 
 def private_key(data):
@@ -15,8 +16,14 @@ def private_key(data):
     return _private_key
 
 def sign(private_key, data):
+    if isinstance(data, str):
+        _d = data.encode()
+    elif isinstance(data, bytes):
+        _d = data
+    else:
+        _d = pack(data)
     sig = private_key.sign(
-            data.encode(),
+            _d,
             padding.PSS(
             mgf=padding.MGF1(hashes.SHA256()),
             salt_length=padding.PSS.MAX_LENGTH),
@@ -25,12 +32,18 @@ def sign(private_key, data):
     return sig
 
 def verify(cert_pem, signature, data):
+    if isinstance(data, str):
+        _d = data.encode()
+    elif isinstance(data, bytes):
+        _d = data
+    else:
+        _d = pack(data)
     cert = x509.load_pem_x509_certificate(cert_pem, default_backend())
     public_key = cert.public_key()
     try:
         public_key.verify(
             signature,
-            data.encode(),
+            _d,
             padding.PSS(
                 mgf=padding.MGF1(hashes.SHA256()),
                 salt_length=padding.PSS.MAX_LENGTH
