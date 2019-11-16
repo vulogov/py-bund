@@ -22,6 +22,7 @@ GLOBAL_REPO_PROVIDER = scoping_providers.PlainNameGlobalRepo()
 
 
 def getProviders():
+    """Returns languale reposittory and reference to provider """
     global GLOBAL_REPO, GLOBAL_REPO_PROVIDER
     return (GLOBAL_REPO, GLOBAL_REPO_PROVIDER)
 
