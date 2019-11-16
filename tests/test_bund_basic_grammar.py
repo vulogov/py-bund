@@ -59,3 +59,10 @@ def test_bund_base_grammar_NSID():
     global_repo_provider = grammar()
     mm = metamodel_for_language("basicTypes")
     model = mm.model_from_str('doMe <- ( : /RunMe/A/B "With NSID" ; )')
+
+def test_bund_base_grammar_LINK():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('doMe link /A/B/c')
+    model = mm.model_from_str('doMe <-* /A/B/c')
+    model = mm.model_from_str('/A/B/c *-> aLink')

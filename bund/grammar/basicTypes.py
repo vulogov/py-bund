@@ -6,7 +6,7 @@ basic_Types = """
 Model: n+= AssignmentDef ;
 
 AssignmentDef:
-    DirectAssignmentDef | ReverseAssignmentDef
+    DirectAssignmentDef | ReverseAssignmentDef | DirectLinkingDef | ReverseLinkingDef
 ;
 
 DirectAssignmentDef:
@@ -16,6 +16,15 @@ DirectAssignmentDef:
 ReverseAssignmentDef:
     data=DataDef  ReverseDataAssignmentOp name=NameDef
 ;
+
+DirectLinkingDef:
+    name=NameDef  DirectLinkOp src=NSID
+;
+
+ReverseLinkingDef:
+    src=NSID  ReverseLinkOp name=NameDef
+;
+
 
 NameDef:
     ID | STRING
@@ -31,6 +40,14 @@ DirectDataAssignmentOp:
 
 ReverseDataAssignmentOp:
     "->" | "as"
+;
+
+DirectLinkOp:
+    "link" | "<-*"
+;
+
+ReverseLinkOp:
+    "*->"
 ;
 
 LIST_TYPE:
