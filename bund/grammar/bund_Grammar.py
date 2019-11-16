@@ -1,3 +1,6 @@
+__doc__ = """
+Module docstring
+"""
 from textx import metamodel_from_str
 from textx import clear_language_registrations
 from textx import register_language
