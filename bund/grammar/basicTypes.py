@@ -1,9 +1,13 @@
 # Basic BUND types
-from textx import metamodel_from_str
-
-
 basic_Types = """
-Model: n+= AssignmentDef ;
+Model: a*= AssignmentDef n*=NameSpaceDef;
+
+NameSpaceDef:
+    "[" name=NSID ">"
+        ns*=NameSpaceDef
+        statements*=AssignmentDef
+    ";;"
+;
 
 AssignmentDef:
     DirectAssignmentDef | ReverseAssignmentDef | DirectLinkingDef | ReverseLinkingDef
@@ -27,7 +31,7 @@ ReverseLinkingDef:
 
 
 NameDef:
-    ID | STRING
+    ID
 ;
 
 NSID:
@@ -59,7 +63,7 @@ KV_TYPE:
 ;
 
 CODEWORD_REF_TYPE:
-    ID | STRING | NSID
+    ID | NSID | SPECIAL_TYPE | VERY_SPECIAL_TYPE
 ;
 
 LAMBDA_TYPE:
@@ -82,7 +86,15 @@ PRELIMENARY_EXECUTE_TYPE:
     ":" name=CODEWORD_REF_TYPE
 ;
 
+SPECIAL_TYPE:
+    "+" | "-" | "++" | "--" | "<" | ">" | "==" | "=" | "<=" | "=>"
+;
+
+VERY_SPECIAL_TYPE:
+    "===" | "+++" | "---" | "**" | "***"
+;
+
 DataDef:
-    BASETYPE | LIST_TYPE | KV_TYPE | LAMBDA_TYPE | REF_TYPE | CURRY_TYPE | PRELIMENARY_EXECUTE_TYPE | DO_EXECUTE_TYPE | NSID
+    BASETYPE | LIST_TYPE | KV_TYPE | LAMBDA_TYPE | REF_TYPE | CURRY_TYPE | PRELIMENARY_EXECUTE_TYPE | DO_EXECUTE_TYPE | NSID | SPECIAL_TYPE | VERY_SPECIAL_TYPE
 ;
 """

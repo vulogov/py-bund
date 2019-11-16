@@ -66,3 +66,76 @@ def test_bund_base_grammar_LINK():
     model = mm.model_from_str('doMe link /A/B/c')
     model = mm.model_from_str('doMe <-* /A/B/c')
     model = mm.model_from_str('/A/B/c *-> aLink')
+
+def test_bund_base_grammar_NS1():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('[/A/B/C> ;;')
+
+def test_bund_base_grammar_NS2():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str("""[/A/B/C>
+        [/A/B/C/D>
+        ;;
+    ;;""")
+
+def test_bund_base_grammar_NS3():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str("""[/A/B/C>
+        [/A/B/C/D>
+            Pi <- 3.14
+        ;;
+        Answer <- 42
+    ;;""")
+
+def test_bund_base_grammar_NS4():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str("""[/A/B/C>
+        [/A/B/C/D>
+            Pi <- 3.14
+        ;;
+        Answer <- 42
+        Pi <-* /A/B/C/D/Pi
+        Main <- (
+            41
+            1
+            +
+            print
+        )
+    ;;""")
+
+def test_bund_base_grammar_NS5():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str("""[/A/B/C>
+        [/A/B/C/D>
+            Pi <- 3.14
+        ;;
+        Answer <- 42
+        Pi <-* /A/B/C/D/Pi
+        Main <- (
+            : print
+                : +
+                    41 1
+                ;
+            ;
+
+        )
+    ;;""")
+
+def test_bund_base_grammar_NS6():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str("""[/A/B/C>
+        curryMe <- ( + . 41 )
+        Main <- (
+            : print
+                : curryMe
+                    1
+                ;
+            ;
+        )
+    ;;""")
