@@ -1,11 +1,15 @@
 import os
 from setuptools import setup, find_packages
 
+name="bund"
+version="0.0"
+release="0.0.1"
 
-setup(name='bund',
+
+setup(name=name,
     setup_requires=['pytest-runner'],
     test_require=['pytest'],
-    version='0.1',
+    version=release,
     description='BUND language interpreter library',
     url='https://github.com/vulogov/py-bund',
     author='Vladimir Ulogov',
