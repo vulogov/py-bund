@@ -2,11 +2,10 @@
 Welcome to py-bund's documentation!
 ===================================
 
-.. automodule:: bund
+.. automodapi:: bund
+    :include-all-objects: True
     :members:
 
-    .. automodule:: bund.grammar
-        :members:
 
 .. toctree::
    :maxdepth: 3
