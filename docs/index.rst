@@ -2,9 +2,8 @@
 Welcome to py-bund's documentation!
 ===================================
 
-.. automodapi:: bund
-    :include-all-objects: True
-    :members:
+.. automodule:: bund
+    :members: __all__
 
 
 .. toctree::
