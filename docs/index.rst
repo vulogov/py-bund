@@ -5,8 +5,11 @@ Welcome to py-bund's documentation!
 .. automodule:: bund
     :members:
 
+    .. automodule:: bund.grammar
+        :members:
+
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
 
 
