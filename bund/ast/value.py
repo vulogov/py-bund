@@ -59,4 +59,4 @@ def parse_value(data):
         else:
             return {'value': data, 'type':data.__class__}
     else:
-        return {"value": data, "type": None}
+        return {"value": data, "type": lambda x: x is None}
