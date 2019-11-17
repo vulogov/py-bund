@@ -44,7 +44,6 @@ def LIST_TYPE(data):
 
 
 def parse_value(data):
-    print(data)
     if isinstance(data, int):
         return {"value": data, "type": int}
     elif isinstance(data, float):
@@ -60,5 +59,4 @@ def parse_value(data):
         else:
             return {'value': data, 'type':data.__class__}
     else:
-        print(data)
-        return {"value": data, "type": str}
+        return {"value": data, "type": None}
