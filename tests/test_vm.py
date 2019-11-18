@@ -6,6 +6,7 @@ import pytest
 from bund.ast.parser import parser
 from bund.vm.vm import *
 from bund.library.ns import *
+from bund.library.log import *
 
 def test_vm_1():
     namespace = parser("""[/HELLO> ;;""")
@@ -13,6 +14,15 @@ def test_vm_1():
     assert platform.system() == nsGet(namespace, "/sys/vm.os.system")
 
 def test_vm_2():
-    namespace = parser("""[/HELLO> ;;""")
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
     namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> ;;""", namespace)
     assert True == nsGet(namespace, "/sys/default/is.ready")
+
+def test_vm_log_1():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> ;;""", namespace)
+    assert True == nsGet(namespace, "/sys/log/ready")
