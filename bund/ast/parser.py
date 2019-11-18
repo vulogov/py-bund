@@ -10,11 +10,12 @@ def parser(code):
     namespace = {}
     parsers = {}
     parsers.update(assignments_INTERFACE)
-    print(parsers)
     dpath_new(namespace, "__main__", {})
+    dpath_new(namespace, "__namespace__", True)
     dpath_new(namespace, "/bin", {})
-    dpath_new(namespace, "/config", {})
+    dpath_new(namespace, "/config", {'compiled':False})
     dpath_new(namespace, "/tmp", {})
+    dpath_new(namespace, "/sys", {})
     global_repo_provider = grammar()
     mm = metamodel_for_language("basicTypes")
     model = mm.model_from_str(code)
