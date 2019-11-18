@@ -16,6 +16,7 @@ def parser(code):
     dpath_new(namespace, "/config", {'compiled':False})
     dpath_new(namespace, "/tmp", {})
     dpath_new(namespace, "/sys", {})
+    dpath_new(namespace, "/conditions", {})
     global_repo_provider = grammar()
     mm = metamodel_for_language("basicTypes")
     model = mm.model_from_str(code)

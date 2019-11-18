@@ -14,11 +14,10 @@ def nsNew(namespace, name):
 def nsSet(namespace, name, default=None):
     try:
         dpath_get(namespace, name)
-        res =  dpath_set(namespace, name, default)
+        dpath_set(namespace, name, default)
     except KeyError:
-        res = default
         dpath_new(namespace, name, default)
-    return res
+    return default
 
 def nsGet(namespace, name, default=None):
     try:
