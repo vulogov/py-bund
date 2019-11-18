@@ -24,6 +24,7 @@ def parser(code, _namespace=None):
     global_repo_provider = grammar()
     mm = metamodel_for_language("basicTypes")
     model = mm.model_from_str(code)
+    debug(namespace, "Scanning '__main__' variables")
     for a in model.a:
         name = a.__class__.__name__
         if name in parsers:

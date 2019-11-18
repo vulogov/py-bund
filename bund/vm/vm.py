@@ -5,7 +5,7 @@ from socket import gethostname
 from queue import LifoQueue
 from bund.library.ns import *
 
-def vmNew(namespace, vmname="default"):
+def vmNew(namespace, vmname="bund"):
     lvmname = nsGet(namespace, "/sys/vm.defaultname", None)
     if not lvmname:
         lvmname = nsSet(namespace, "/sys/vm.defaultname", vmname)
@@ -19,7 +19,9 @@ def vmNew(namespace, vmname="default"):
     nsSet(namespace, "/sys/vm.os.release", platform.release())
     nsSet(namespace, "/sys/vm.hardware", platform.machine())
     nsSet(namespace, "/sys/vm.python", platform.python_version())
+    nsSet(namespace, "/sys/%s" % lvmname, {})
     nsSet(namespace, "/sys/%s/vm.started" % lvmname, time.time())
+    nsSet(namespace, "/sys/%s/vm.updated" % lvmname, time.time())
     nsSet(namespace, "/sys/%s/vm.id" % lvmname, str(uuid.uuid4()))
     nsSet(namespace, "/sys/%s/builtins" % lvmname, {})
     nsSet(namespace, "/sys/%s/stack" % lvmname, LifoQueue)

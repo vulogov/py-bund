@@ -45,18 +45,21 @@ def LIST_TYPE(data):
 
 def parse_value(data):
     if isinstance(data, int):
-        return {"value": data, "type": int}
+        res = {"value": data, "type": int}
     elif isinstance(data, float):
-        return {"value": data, "type": float}
+        res = {"value": data, "type": float}
     elif isinstance(data, str):
-        return {"value": data, "type": str}
+        res = {"value": data, "type": str}
     elif isinstance(data, object):
         if hasattr(bund.ast.value, data.__class__.__name__) is True:
             f = getattr(bund.ast.value, data.__class__.__name__)
-            res = f(data)
-            res['type'] = data.__class__
-            return res
+            _res = f(data)
+            _res['type'] = data.__class__
+            res = _res
         else:
-            return {'value': data, 'type':data.__class__}
+            res = {'value': data, 'type':data.__class__}
     else:
-        return {"value": data, "type": lambda x: x is None}
+        res = {"value": data, "type": lambda x: x is None}
+    res["continue"] = True
+    res["msg"] = ""
+    return res

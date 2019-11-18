@@ -18,7 +18,7 @@ def test_vm_2():
     namespace = logInit(namespace, 'DEBUG')
     namespace = vmNew(namespace)
     namespace = parser("""[/HELLO> ;;""", namespace)
-    assert True == nsGet(namespace, "/sys/default/is.ready")
+    assert True == nsGet(namespace, "/sys/bund/is.ready")
 
 def test_vm_log_1():
     namespace = nsCreate()
