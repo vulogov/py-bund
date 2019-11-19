@@ -7,7 +7,7 @@ def vmConfigNew(namespace, **kw):
     nsSet(namespace, "/config/main.path", ["Main", "/bin/Main"])
     nsSet(namespace, "/config/pipes.path", ["/pipes"])
     nsSet(namespace, "/config/templates.path", ["/templates"])
-    nsSet(namespace, "/config/templates.namespace", ["/config", "/sys"])
+    nsSet(namespace, "/config/templates.namespace", ["/config", "/sys", "/sys/runtime"])
     namespace = vmConfig(namespace, **kw)
     return namespace
 

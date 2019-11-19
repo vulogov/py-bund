@@ -102,7 +102,15 @@ def test_vm_11():
     namespace = nsCreate()
     namespace = logInit(namespace, 'DEBUG')
     namespace = vmNew(namespace)
-    namespace = vmConfig(namespace, answer = 42)
     vmRtSet(namespace, "answer", 42)
     namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
     assert vmRtGet(namespace, "answer") == 42
+
+def test_vm_12():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    vmRtSet(namespace, "answer", 42)
+    nsSet(namespace, "/templates/answer", "{{ answer }}")
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    assert vmTemplateGenerate(namespace, "answer") == "42"
