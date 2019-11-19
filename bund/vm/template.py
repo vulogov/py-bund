@@ -21,7 +21,7 @@ def vmTemplateGenerate(namespace, name, **kw):
         return None
     t = Template(tpl)
     ns = {}
-    ns_list = nsGet(namespace, "/config/tremplates.namespace", ["/config", "/sys"])
+    ns_list = nsGet(namespace, "/config/templates.namespace", ["/config", "/sys", "/sys/runtime"])
     for n in ns_list:
         ns.update(nsGet(namespace, n))
     ns.update(kw)
