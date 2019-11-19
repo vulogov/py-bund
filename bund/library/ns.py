@@ -16,6 +16,7 @@ def nsCreate(**kw):
     nsNew(namespace, '/sys/log')
     nsNew(namespace, '/sys/pipes')
     nsNew(namespace, '/conditions')
+    nsNew(namespace, '/templates')
     nsSet(namespace, '/config/compiled', False)
     nsSet(namespace, "/sys/log/ready", False)
     nsSet(namespace, "/sys/id", str(uuid.uuid4()))

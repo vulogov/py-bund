@@ -6,6 +6,8 @@ def vmConfigNew(namespace, **kw):
     """ Create default config for the (usually) new VM """
     nsSet(namespace, "/config/main.path", ["Main", "/bin/Main"])
     nsSet(namespace, "/config/pipes.path", ["/pipes"])
+    nsSet(namespace, "/config/templates.path", ["/templates"])
+    nsSet(namespace, "/config/templates.namespace", ["/config", "/sys"])
     namespace = vmConfig(namespace, **kw)
     return namespace
 
@@ -14,3 +16,6 @@ def vmConfig(namespace, **kw):
         debug(namespace, "Config: {} = {}".format(k, kw[k]))
         nsSet(namespace, "/config/{}".format(k), kw[k])
     return namespace
+
+def vmConfigGet(namespace, name, default):
+    return nsGet(namespace, "/config/{}".format(name), default)

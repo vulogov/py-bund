@@ -7,6 +7,7 @@ from bund.ast.parser import parser
 from bund.vm.vm import *
 from bund.vm.config import *
 from bund.vm.localns import *
+from bund.vm.template import *
 from bund.library.ns import *
 from bund.library.log import *
 from bund.library.data import *
@@ -86,3 +87,12 @@ def test_vm_9():
     namespace = vmConfig(namespace, answer = 42)
     namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
     assert nsGet(namespace, "/config/answer") == 42
+
+def test_vm_10():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = vmConfig(namespace, answer = 42)
+    nsSet(namespace, "/templates/answer", "{{ answer }}")
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    assert vmTemplateGenerate(namespace, "answer") == "42"
