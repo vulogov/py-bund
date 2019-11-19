@@ -63,3 +63,17 @@ def test_vm_6():
     local = nsGet(namespace, "/HELLO")
     debug(namespace, str(local))
     assert len(lnsVars(local, is_internal=True)) == 4
+
+def test_vm_7():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    assert nsGet(namespace, "/config/main.path")[0] == "Main"
+
+def test_vm_8():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    assert nsGet(namespace, "/config/pipes.path")[0] == "/pipes"

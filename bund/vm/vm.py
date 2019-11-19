@@ -3,11 +3,12 @@ import uuid
 import platform
 from socket import gethostname
 from queue import LifoQueue
+from bund.vm.config import vmConfigNew
 from bund.library.ns import *
 from bund.library.data import *
 from bund.ast.value import parse_value
 
-def vmNew(namespace, vmname="bund"):
+def vmNew(namespace, vmname="bund", **kw):
     lvmname = nsGet(namespace, "/sys/vm.defaultname", None)
     if not lvmname:
         lvmname = nsSet(namespace, "/sys/vm.defaultname", vmname)
@@ -21,7 +22,7 @@ def vmNew(namespace, vmname="bund"):
     nsSet(namespace, "/sys/vm.os.release", platform.release())
     nsSet(namespace, "/sys/vm.hardware", platform.machine())
     nsSet(namespace, "/sys/vm.python", platform.python_version())
-    nsSet(namespace, "/sys/%s" % lvmname, {})
+    nsNew(namespace, "/sys/%s" % lvmname)
     nsSet(namespace, "/sys/%s/vm.started" % lvmname, time.time())
     nsSet(namespace, "/sys/%s/vm.updated" % lvmname, time.time())
     nsSet(namespace, "/sys/%s/vm.id" % lvmname, str(uuid.uuid4()))
@@ -29,6 +30,8 @@ def vmNew(namespace, vmname="bund"):
     nsSet(namespace, "/sys/%s/stack" % lvmname, LifoQueue())
     nsSet(namespace, "/sys/%s/arguments" % lvmname, [])
     nsSet(namespace, "/sys/%s/is.ready" % lvmname, True)
+    kw['lang'] = lvmname
+    namespace = vmConfigNew(namespace, **kw)
     return namespace
 
 
