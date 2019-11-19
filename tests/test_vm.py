@@ -5,8 +5,11 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 import pytest
 from bund.ast.parser import parser
 from bund.vm.vm import *
+from bund.vm.localns import *
 from bund.library.ns import *
 from bund.library.log import *
+from bund.library.data import *
+
 
 def test_vm_1():
     namespace = parser("""[/HELLO> ;;""")
@@ -34,4 +37,29 @@ def test_vm_3():
     namespace = parser("""[/HELLO> ;;""", namespace)
     vmPush(namespace, 42)
     data = vmPull(namespace)
-    assert data['value'] == 42
+    assert dataValue(data) == 42
+def test_vm_4():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> ;;""", namespace)
+    local = nsGet(namespace, "/HELLO")
+    assert lnsIs(local) == True
+
+def test_vm_5():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    local = nsGet(namespace, "/HELLO")
+    debug(namespace, str(local))
+    assert len(lnsVars(local)) == 1
+
+def test_vm_6():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    local = nsGet(namespace, "/HELLO")
+    debug(namespace, str(local))
+    assert len(lnsVars(local, is_internal=True)) == 4
