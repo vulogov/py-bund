@@ -1,0 +1,1 @@
+def lnsIs(namespace, **kw):

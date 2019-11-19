@@ -26,3 +26,12 @@ def test_vm_log_1():
     namespace = vmNew(namespace)
     namespace = parser("""[/HELLO> ;;""", namespace)
     assert True == nsGet(namespace, "/sys/log/ready")
+
+def test_vm_3():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = parser("""[/HELLO> ;;""", namespace)
+    vmPush(namespace, 42)
+    data = vmPull(namespace)
+    assert data['value'] == 42
