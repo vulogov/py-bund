@@ -5,6 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')
 import pytest
 from bund.ast.parser import parser
 from bund.vm.vm import *
+from bund.vm.config import *
 from bund.vm.localns import *
 from bund.library.ns import *
 from bund.library.log import *
@@ -77,3 +78,11 @@ def test_vm_8():
     namespace = vmNew(namespace)
     namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
     assert nsGet(namespace, "/config/pipes.path")[0] == "/pipes"
+
+def test_vm_9():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = vmConfig(namespace, answer = 42)
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    assert nsGet(namespace, "/config/answer") == 42

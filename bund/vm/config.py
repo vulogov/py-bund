@@ -1,5 +1,6 @@
 from bund.library.ns import *
 from bund.library.data import *
+from bund.library.log import *
 
 def vmConfigNew(namespace, **kw):
     """ Create default config for the (usually) new VM """
@@ -10,5 +11,6 @@ def vmConfigNew(namespace, **kw):
 
 def vmConfig(namespace, **kw):
     for k in kw:
-        nsSet(namespace, f"/config/%(k)s", kw[k])
+        debug(namespace, "Config: {} = {}".format(k, kw[k]))
+        nsSet(namespace, "/config/{}".format(k), kw[k])
     return namespace
