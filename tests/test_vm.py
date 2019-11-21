@@ -9,6 +9,7 @@ from bund.vm.config import *
 from bund.vm.localns import *
 from bund.vm.template import *
 from bund.vm.runtime_vars import vmRtGet, vmRtSet
+from bund.vm.scripts import *
 from bund.library.ns import *
 from bund.library.log import *
 from bund.library.data import *
@@ -114,3 +115,19 @@ def test_vm_12():
     nsSet(namespace, "/templates/answer", "{{ answer }}")
     namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
     assert vmTemplateGenerate(namespace, "answer") == "42"
+
+def test_vm_13():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = vmScript(namespace, 'answer', """[ANSWER> ;;""")
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    assert vmScriptGet(namespace, 'answer') == """[ANSWER> ;;"""
+
+def test_vm_14():
+    namespace = nsCreate()
+    namespace = logInit(namespace, 'DEBUG')
+    namespace = vmNew(namespace)
+    namespace = vmScript(namespace, 'answer', """[/ANSWER> ;;""", run=True)
+    namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
+    assert isNamespace(namespace, "/ANSWER") == True 

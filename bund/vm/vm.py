@@ -17,11 +17,10 @@ def vmLang(namespace, lang="bund"):
 
 
 def vmNew(namespace, vmname="bund", **kw):
-    lvmname = vmLang(vmname)
-    if lvname != vmname:
+    lvmname = vmLang(namespace, vmname)
+    if lvmname != vmname:
         nsSet(namespace, "/sys/%s/is.ready" % lvmname, False)
         return namespace
-    lvmname = nsSet(namespace, "/sys/vm.defaultname", vmname)
     nsSet(namespace, "/sys/vm.hostname", gethostname())
     nsSet(namespace, "/sys/vm.os.system", platform.system())
     nsSet(namespace, "/sys/vm.os.release", platform.release())

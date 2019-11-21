@@ -19,6 +19,9 @@ def parser(code, _namespace=None):
         dpath_new(namespace, "/conditions", {})
     else:
         namespace = _namespace
+    return parseIn(namespace, code)
+
+def parseIn(namespace, code):
     parsers = {}
     parsers.update(assignments_INTERFACE)
     global_repo_provider = grammar()

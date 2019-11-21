@@ -12,12 +12,12 @@ def ast_compile(namespace, pri, pub):
         cert = x509.load_pem_x509_certificate(pub, default_backend())
         c_namespace = deepcopy(namespace)
         c_namespace['sys'] = None
-        nsSet(namespace, "/config/compiled", True)
-        nsSet(namespace, "/config/compiled.stamp", time.time())
-        nsSet(namespace, "/config/certificate.issuer", cert.issuer.rfc4514_string())
-        nsSet(namespace, "/config/certificate.subject", cert.subject.rfc4514_string())
-        nsSet(namespace, "/config/notvalid.after", calendar.timegm(cert.not_valid_after.timetuple()))
-        return generate(namespace, pri, pub)
+        nsSet(c_namespace, "/config/compiled", True)
+        nsSet(c_namespace, "/config/compiled.stamp", time.time())
+        nsSet(c_namespace, "/config/certificate.issuer", cert.issuer.rfc4514_string())
+        nsSet(c_namespace, "/config/certificate.subject", cert.subject.rfc4514_string())
+        nsSet(c_namespace, "/config/notvalid.after", calendar.timegm(cert.not_valid_after.timetuple()))
+        return generate(c_namespace, pri, pub)
     return None
 
 def ast_compile_src(source, pri, pub):
