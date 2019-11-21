@@ -11,3 +11,11 @@ def dataValue(data):
     if isinstance(data, dict) is not True:
         return None
     return data.get('value', None)
+
+def dataMake(dataobj, **kw):
+    res = {}
+    res["value"] = dataobj
+    res["type"] = type(dataobj)
+    res.update(kw)
+    return res
+    

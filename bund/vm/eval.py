@@ -1,6 +1,27 @@
 from bund.vm.vm import vmGet, vmPull, vmPush
 from bund.vm.error import vmError
+from bund.vm.error import vmBuiltinGet
+from bund.vm.localns import *
+from bund.vm.config import *
 from bund.library.ns import *
+
+def vmLocateSymbol(namespace, sym, **kw):
+    if isNSID(sym) is True:
+        return nsGet(namespace, sym, None)
+    localns = kw.get("ns", None)
+    if localns is not None and isinstance(localns, dict) is True:
+        res = lnsGet(localns, sym, **kw)
+        if res is not None:
+            return res
+    search_path = vmConfigGet(namespace, "/config/path", ["/bin", "/custom"])
+    for s in search_path:
+        res = nsGet(namespace, "{}/{}".format(s, sym))
+        if res is not None:
+            return res
+    return vmBuiltinGet(namespace, sym, **kw)
+
+
+
 
 def vmEval(namespace, _path=None, **kw):
     lang = kw.get('lang', 'bund')

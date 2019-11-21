@@ -1,10 +1,13 @@
 import imp
 import sys
 from bund.library.ns import *
+from bund.library.data import *
+
+
 
 def vmBuiltinModuleLoad(namespace, mod_name, **kw):
-    lang_name = kw.get('lang', 'default')
-    b_path = "/sys/%s/builtins" % lang_name
+    lang_name = kw.get('lang', 'bund')
+    b_path = "/sys/{}/builtins".format(lang_name)
     lang = nsGet(namespace, "/sys/%s" % lang_name, None)
     if lang is None:
         return namespace
@@ -18,3 +21,11 @@ def vmBuiltinModuleLoad(namespace, mod_name, **kw):
     builtins = nsGet(namespace, b_path, {})
     buitins.update(interface)
     return namespace
+
+def vmBuiltinGet(namespace, name, **kw):
+    lang_name = kw.get('lang', 'bund')
+    b_path = "/sys/{}/builtins".format(lang_name)
+    builtins = nsGet(namespace, b_path, {})
+    if mod_name in builtins:
+        return dataMake(builtins)
+    return None

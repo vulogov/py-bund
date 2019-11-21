@@ -10,7 +10,7 @@ NameSpaceDef:
 ;
 
 AssignmentDef:
-    DirectAssignmentDef | ReverseAssignmentDef | DirectLinkingDef | ReverseLinkingDef | DirectPythonDef | ReversePythonDef
+    DirectAssignmentDef | ReverseAssignmentDef | DirectLinkingDef | ReverseLinkingDef | DirectPythonDef | ReversePythonDef | DirectPipeDef | ReversePipeDef
 ;
 
 DirectAssignmentDef:
@@ -37,6 +37,13 @@ ReverseLinkingDef:
     src=NSID  ReverseLinkOp name=NameDef
 ;
 
+DirectPipeDef:
+    name=NameDef  DirectPipeOp def*=KV_TYPE[","]
+;
+
+ReversePipeDef:
+    def*=KV_TYPE[","]  ReversePipeOp name=NameDef
+;
 
 NameDef:
     ID
@@ -68,6 +75,14 @@ DirectLinkOp:
 
 ReverseLinkOp:
     "*->"
+;
+
+DirectPipeOp:
+    "<pipe"
+;
+
+ReversePipeOp:
+    "pipe>"
 ;
 
 LIST_TYPE:
@@ -111,10 +126,10 @@ VERY_SPECIAL_TYPE:
 ;
 
 DataDef:
-    BASETYPE | LIST_TYPE | KV_TYPE | LAMBDA_TYPE | REF_TYPE | CURRY_TYPE | PRELIMENARY_EXECUTE_TYPE | DO_EXECUTE_TYPE | NSID | SPECIAL_TYPE | VERY_SPECIAL_TYPE
+    ID | BASETYPE | LIST_TYPE | KV_TYPE | LAMBDA_TYPE | REF_TYPE | CURRY_TYPE | PRELIMENARY_EXECUTE_TYPE | DO_EXECUTE_TYPE | NSID | SPECIAL_TYPE | VERY_SPECIAL_TYPE
 ;
 
 Comment:
-    /\\/\\*(.|\n)*?\\*\\// 
+    /\\/\\*(.|\n)*?\\*\\//
 ;
 """

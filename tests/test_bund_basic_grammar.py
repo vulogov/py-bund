@@ -90,6 +90,17 @@ def test_bund_base_grammar_LINK():
     model = mm.model_from_str('doMe <-* /A/B/c')
     model = mm.model_from_str('/A/B/c *-> aLink')
 
+def test_bund_base_grammar_PIPE1():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('thePipe <pipe  {name "hello.dat"},{type file} ')
+
+def test_bund_base_grammar_PIPE2():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str('{name "hello.dat"},{type file} pipe> thePipe')
+
+
 def test_bund_base_grammar_NS1():
     global_repo_provider = grammar()
     mm = metamodel_for_language("basicTypes")
@@ -109,6 +120,7 @@ def test_bund_base_grammar_NS3():
     model = mm.model_from_str("""[/A/B/C>
         [/A/B/C/D>
             Pi <- 3.14
+            SomeVar <- | 1,2,3 |
         ;;
         Answer <- 42
     ;;""")
@@ -119,6 +131,8 @@ def test_bund_base_grammar_NS4():
     model = mm.model_from_str("""[/A/B/C>
         [/A/B/C/D>
             Pi <- 3.14
+            Answer <- "42"
+            someFile <pipe {name "/tmp/aaa"},{type file}
         ;;
         Answer <- 42
         Pi <-* /A/B/C/D/Pi
