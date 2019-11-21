@@ -9,6 +9,7 @@ def nsCreate(**kw):
     nsSet(namespace, '__main__', {})
     nsSet(namespace, '__namespace__', True)
     nsNew(namespace, '/bin')
+    nsNew(namespace, '/custom')
     nsNew(namespace, '/config')
     nsNew(namespace, '/pipes')
     nsNew(namespace, '/tmp')
@@ -43,3 +44,8 @@ def nsGet(namespace, name, default=None):
     except KeyError:
         res = default
     return res
+
+def isNSID(namespace, sym):
+    if ininstance(sym, str) is False:
+        return False
+    return sym[0] == "/"

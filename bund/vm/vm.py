@@ -8,14 +8,19 @@ from bund.library.ns import *
 from bund.library.data import *
 from bund.ast.value import parse_value
 
+def vmLang(namespace, lang="bund"):
+    sys_lang = nsGet(namespace, "/sys/vm.defaultname", None)
+    if sys_lang is None:
+        nsSet(namespace, "/sys/vm.defaultname", lang)
+        return lang
+    return sys_lang
+
+
 def vmNew(namespace, vmname="bund", **kw):
-    lvmname = nsGet(namespace, "/sys/vm.defaultname", None)
-    if not lvmname:
-        lvmname = nsSet(namespace, "/sys/vm.defaultname", vmname)
-    else:
-        if lvname != vmname:
-            nsSet(namespace, "/sys/%s/is.ready" % lvmname, False)
-            return namespace
+    lvmname = vmLang(vmname)
+    if lvname != vmname:
+        nsSet(namespace, "/sys/%s/is.ready" % lvmname, False)
+        return namespace
     lvmname = nsSet(namespace, "/sys/vm.defaultname", vmname)
     nsSet(namespace, "/sys/vm.hostname", gethostname())
     nsSet(namespace, "/sys/vm.os.system", platform.system())

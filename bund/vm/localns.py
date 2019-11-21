@@ -21,3 +21,9 @@ def lnsVars(namespace, **kw):
         else:
             continue
     return res
+
+def lnsGet(namespace, name, **kw):
+    v = lnsVars(namespace, **kw)
+    if name in v:
+        return namespace.get(name)
+    return None

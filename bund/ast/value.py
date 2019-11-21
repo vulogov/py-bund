@@ -34,7 +34,7 @@ def LIST_TYPE(data):
     for d in data.data:
         if isinstance(d, object) and d.__class__.__name__ == 'KV_TYPE':
             key = d.name
-            value = d.data
+            value = d.value
         else:
             key = c
             value = d
