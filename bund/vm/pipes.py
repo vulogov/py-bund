@@ -6,7 +6,8 @@ from bund.vm.python import pyImport
 
 
 def vmPipesDefaultInit(namespace, **kw):
-
+    vmPipeMake(namespace, "clock", type="clock")
+    vmPipeMake(namespace, "random", type="random")
     return namespace
 
 def vmPipeMake(namespace, name=None, **kw):

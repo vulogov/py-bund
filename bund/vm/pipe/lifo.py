@@ -1,10 +1,10 @@
-from queue import Queue
+from queue import LifoQueue
 from bund.library.data import *
 
 class fifo_pipe(object): pass
 
 def init(namespace, name, **kw):
-    obj = dataMake(Queue(), typeclass=fifo_pipe, **kw)
+    obj = dataMake(LifoQueue(), typeclass=fifo_pipe, **kw)
     dataUpdate(obj, read=read, write=write, seek=None, tell=None, close=None)
     return obj
 

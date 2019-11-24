@@ -42,6 +42,7 @@ def vmNew(namespace, vmname="bund", **kw):
     nsSet(namespace, "/sys/%s/is.ready" % lvmname, True)
     kw['lang'] = lvmname
     namespace = vmConfigNew(namespace, **kw)
+    namespace = vmPipesDefaultInit(namespace, **kw)
     return namespace
 
 
