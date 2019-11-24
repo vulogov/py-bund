@@ -27,3 +27,4 @@ def vmPipesConfigure(namespace, **kw):
         return None
     if hasattr(_pmod, "init") is not True:
         return None
+    return getattr(_pmod, "init")(namespace, **kw)

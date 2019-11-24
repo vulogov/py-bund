@@ -5,6 +5,11 @@ from bund.library.data import *
 
 class python_function(object): pass
 
+try:
+    mod_error = ModuleNotFoundError
+except NameError:
+    mod_error = ImportError
+
 def pyImport(namespace, *mod_names, **kw):
     sys.path = vmConfigGet(namespace, "builtinmodules.path", sys.path)
     modules = namespace["sys"]["modules"]
@@ -14,7 +19,7 @@ def pyImport(namespace, *mod_names, **kw):
     for m in mod_names:
         try:
             mod = importlib.import_module(m)
-        except ModuleNotFoundError:
+        except mod_error:
             continue
         if mod not in res:
             res.append(mod)
