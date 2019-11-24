@@ -23,6 +23,7 @@ def nsCreate(**kw):
     nsSet(namespace, '/config/compiled', False)
     nsSet(namespace, "/sys/log/ready", False)
     nsSet(namespace, "/sys/id", str(uuid.uuid4()))
+    namespace.update(kw)
     return namespace
 
 def nsNew(namespace, name):

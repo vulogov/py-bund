@@ -1,12 +1,15 @@
 import time
-from bund.vm.vm import vmGet
+from bund.vm.vm import vmPush, vmPull
 from bund.vm.error import vmError
 from bund.library.ns import *
+from bund.library.data import dataMake
 from bund.ast.value import parse_value
 
 INTERFACE = {}
+NAME = "Time"
 
 def Now(namespace):
-    lang = vmGet(namespace)
-    if lang is None:
-        vmError(namespace, msg="Language not found")
+    vmPush(namespace, time.time())
+    return namespace
+
+INTERFACE["Now"] = Now

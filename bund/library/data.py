@@ -1,3 +1,6 @@
+class builtin_module(object): pass
+class builtin_function(object): pass
+
 def isContinue(data):
     if data is None:
         return True
@@ -12,10 +15,20 @@ def dataValue(data):
         return None
     return data.get('value', None)
 
+def dataIsType(data, typeclass):
+    if data is None:
+        return None
+    if isinstance(data, dict) is not True:
+        return None
+    return data.get('type', None) == typeclass
+
+
+
+
+
 def dataMake(dataobj, **kw):
     res = {}
     res["value"] = dataobj
-    res["type"] = type(dataobj)
+    res["type"] = kw.get("typeclass", type(dataobj))
     res.update(kw)
     return res
-    

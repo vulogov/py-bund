@@ -4,15 +4,20 @@ import platform
 from socket import gethostname
 from queue import LifoQueue
 from bund.vm.config import vmConfigNew
+from bund.vm.pipes import vmPipesDefaultInit
 from bund.library.ns import *
 from bund.library.data import *
 from bund.ast.value import parse_value
 
-def vmLang(namespace, lang="bund"):
-    sys_lang = nsGet(namespace, "/sys/vm.defaultname", None)
+def vmLang(namespace, lang="bund", **kw):
+    sys_lang = kw.get("lang", None)
     if sys_lang is None:
+        sys_lang = nsGet(namespace, "/sys/vm.defaultname", None)
+        if sys_lang is None:
+            nsSet(namespace, "/sys/vm.defaultname", lang)
+            return lang
+    else:
         nsSet(namespace, "/sys/vm.defaultname", lang)
-        return lang
     return sys_lang
 
 
@@ -26,6 +31,7 @@ def vmNew(namespace, vmname="bund", **kw):
     nsSet(namespace, "/sys/vm.os.release", platform.release())
     nsSet(namespace, "/sys/vm.hardware", platform.machine())
     nsSet(namespace, "/sys/vm.python", platform.python_version())
+    nsSet(namespace, "/sys/modules", [])
     nsNew(namespace, "/sys/%s" % lvmname)
     nsSet(namespace, "/sys/%s/vm.started" % lvmname, time.time())
     nsSet(namespace, "/sys/%s/vm.updated" % lvmname, time.time())
@@ -46,8 +52,13 @@ def vmGet(namespace, name=None):
         return None
     return nsGet(namespace, "/sys/%s" % name, None)
 
+def vmSys(namespace, name, default=None, **kw):
+    lang = vmLang(namespace, **kw)
+    _p = "/sys/{}/{}".format(lang, name)
+    return nsGet(namespace, _p, default)
+
 def vmPush(namespace, obj, **kw):
-    lang = kw.get('lang', 'bund')
+    lang = vmLang(namespace, **kw)
     local_namespace = vmGet(namespace, lang)
     if kw.get("raw", False) is False:
         local_namespace['stack'].put_nowait(parse_value(obj))
@@ -56,7 +67,7 @@ def vmPush(namespace, obj, **kw):
     return namespace
 
 def vmPull(namespace, **kw):
-    lang = kw.get('lang', 'bund')
+    lang = vmLang(namespace, **kw)
     local_namespace = vmGet(namespace, lang)
     if local_namespace['stack'].empty() is True:
         return None

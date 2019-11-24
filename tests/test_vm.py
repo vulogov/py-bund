@@ -130,4 +130,4 @@ def test_vm_14():
     namespace = vmNew(namespace)
     namespace = vmScript(namespace, 'answer', """[/ANSWER> ;;""", run=True)
     namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
-    assert isNamespace(namespace, "/ANSWER") == True 
+    assert isNamespace(namespace, "/ANSWER") == True
