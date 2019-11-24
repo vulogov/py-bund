@@ -5,4 +5,4 @@ def read(namespace, name):
     return None
 
 def write(namespace, name, data):
-    return Name
+    return None

@@ -3,8 +3,6 @@ from bund.library.data import *
 from bund.vm.pipe import *
 from bund.vm.python import pyImport
 
-class pipe: pass
-
 def vmPipesDefaultInit(namespace, **kw):
 
     return namespace
@@ -26,4 +24,6 @@ def vmPipesConfigure(namespace, **kw):
     pname = "bund.vm.pipe.{}".format(ptype)
     _pmod = pyImport(namespace, _pname)
     if len(_pmod) == 0:
+        return None
+    if hasattr(_pmod, "init") is not True:
         return None
