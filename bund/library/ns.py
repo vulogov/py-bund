@@ -48,7 +48,7 @@ def nsGet(namespace, name, default=None):
     return res
 
 def isNSID(namespace, sym):
-    if ininstance(sym, str) is False:
+    if isinstance(sym, str) is False:
         return False
     return sym[0] == "/"
 
