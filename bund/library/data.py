@@ -1,3 +1,4 @@
+import time
 class builtin_module(object): pass
 class builtin_function(object): pass
 
@@ -22,13 +23,16 @@ def dataIsType(data, typeclass):
         return None
     return data.get('type', None) == typeclass
 
-
-
-
-
 def dataMake(dataobj, **kw):
     res = {}
     res["value"] = dataobj
     res["type"] = kw.get("typeclass", type(dataobj))
+    res["msg"] = ""
+    res["continue"] = True
+    res["stamp"] = time.time()
     res.update(kw)
     return res
+
+def dataUpdate(dataval, **kw):
+    dataval.update(kw)
+    return dataval
