@@ -7,6 +7,7 @@ def vmConfigNew(namespace, **kw):
     """ Create default config for the (usually) new VM """
     nsSet(namespace, "/config/bootstrap", ["bootstrap", "/bin/bootstrap"])
     nsSet(namespace, "/config/main.path", ["Main", "/bin/Main"])
+    nsSet(namespace, "/config/main.scripts.path", ["Main", "bootstrap"])
     nsSet(namespace, "/config/path", ["/bin", "/custom"])
     nsSet(namespace, "/config/pipes.path", ["/pipes"])
     nsSet(namespace, "/config/templates.path", ["/templates"])

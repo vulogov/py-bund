@@ -8,6 +8,8 @@ from bund.vm.pipes import vmPipesDefaultInit
 from bund.library.ns import *
 from bund.library.data import *
 from bund.ast.value import parse_value
+from bund.ast.parser import parserSetup
+
 
 def vmLang(namespace, lang="bund", **kw):
     sys_lang = kw.get("lang", None)
@@ -32,6 +34,8 @@ def vmNew(namespace, vmname="bund", **kw):
     nsSet(namespace, "/sys/vm.hardware", platform.machine())
     nsSet(namespace, "/sys/vm.python", platform.python_version())
     nsSet(namespace, "/sys/modules", [])
+    if "is.parser" not in namespace["sys"]:
+        nsSet(namespace, "/sys/is.parser", parserSetup(namespace))
     nsNew(namespace, "/sys/%s" % lvmname)
     nsSet(namespace, "/sys/%s/vm.started" % lvmname, time.time())
     nsSet(namespace, "/sys/%s/vm.updated" % lvmname, time.time())
@@ -39,6 +43,7 @@ def vmNew(namespace, vmname="bund", **kw):
     nsSet(namespace, "/sys/%s/builtins" % lvmname, {})
     nsSet(namespace, "/sys/%s/stack" % lvmname, LifoQueue())
     nsSet(namespace, "/sys/%s/arguments" % lvmname, [])
+    nsSet(namespace, "/sys/%s/is.reverse" % lvmname, True)
     nsSet(namespace, "/sys/%s/is.ready" % lvmname, True)
     kw['lang'] = lvmname
     namespace = vmConfigNew(namespace, **kw)
@@ -57,6 +62,13 @@ def vmSys(namespace, name, default=None, **kw):
     lang = vmLang(namespace, **kw)
     _p = "/sys/{}/{}".format(lang, name)
     return nsGet(namespace, _p, default)
+
+def vmSysSet(namespace, **kw):
+    lang = vmLang(namespace, **kw)
+    for k in kw:
+        _p = "/sys/{}/{}".format(lang, k)
+        nsSet(namespace, _p, kw[k])
+    return namespace
 
 def vmPush(namespace, obj, **kw):
     lang = vmLang(namespace, **kw)
@@ -85,3 +97,22 @@ def vmPeek(namespace, **kw):
 def vmContinue(namespace, **kw):
     data = vmPeek(namespace, **kw)
     return isContinue(data)
+
+def vmStack(namespace, **kw):
+    lang = vmLang(namespace, **kw)
+    local_namespace = vmGet(namespace, lang)
+    while True:
+        if local_namespace['stack'].empty() is True:
+            break
+        next = vmPeek(namespace, **kw)
+        if dataType(next).__class__.__name__ == 'PRELIMENARY_EXECUTE_TYPE':
+            break
+        next = vmPull(namespace, **kw)
+        local_namespace['arguments'].append(next)
+    return namespace
+
+def vmArgumentsClear(namespace, **kw):
+    vmSysSet(namespace, arguments=[])
+
+def vmArguments(namespace, **kw):
+    return vmSys(namespace, "srguments", [])

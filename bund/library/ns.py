@@ -7,6 +7,7 @@ from dpath.util import set as dpath_set
 def nsCreate(**kw):
     namespace = {}
     nsSet(namespace, '__main__', {})
+    nsSet(namespace, '__script__', [])
     nsSet(namespace, '__namespace__', True)
     nsNew(namespace, '/bin')
     nsNew(namespace, '/custom')

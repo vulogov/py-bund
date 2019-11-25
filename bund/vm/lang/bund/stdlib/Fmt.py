@@ -7,10 +7,12 @@ from bund.ast.value import parse_value
 
 INTERFACE = {}
 OPTIONS={'expand': False}
-NAME = "Time"
+NAME = "Fmt"
 
-def Now(namespace):
-    vmPush(namespace, time.time())
+def actual_print(namespace):
+    data = vmPull(namespace)
+    if data is not None:
+        print(dataValue(data))
     return namespace
 
-INTERFACE["Now"] = Now
+INTERFACE["print"] = actual_print

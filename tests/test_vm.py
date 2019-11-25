@@ -120,9 +120,9 @@ def test_vm_13():
     namespace = nsCreate()
     namespace = logInit(namespace, 'DEBUG')
     namespace = vmNew(namespace)
-    namespace = vmScript(namespace, 'answer', """[ANSWER> ;;""")
+    namespace = vmScript(namespace, 'answer', """[/ANSWER> ;;""")
     namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
-    assert vmScriptGet(namespace, 'answer') == """[ANSWER> ;;"""
+    assert vmScriptGet(namespace, 'answer') == """[/ANSWER> ;;"""
 
 def test_vm_14():
     namespace = nsCreate()

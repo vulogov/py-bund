@@ -1,6 +1,6 @@
 # Basic BUND types
 basic_Types = """
-Model: n*=NameSpaceDef a*= AssignmentDef;
+Model: n*=NameSpaceDef a*= AssignmentDef d *= DataDef;
 
 NameSpaceDef:
     "[" name=NSID ">"

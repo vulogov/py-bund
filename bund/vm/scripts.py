@@ -1,5 +1,6 @@
 from bund.library.ns import *
 from bund.vm.config import vmConfigGet
+from bund.vm.vm import vmGet
 from bund.ast.parser import parseIn
 
 def vmScript(namespace, name, script, **kw):

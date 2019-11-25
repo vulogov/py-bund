@@ -12,7 +12,7 @@ def DirectAssignmentDef(namespace, parsers, model, **kw):
         namespace_name = "__main__"
     else:
         return namespace
-    obj = kw["assign"]
+    obj = kw.get("assign")
     local_namespace = dpath_get(namespace, namespace_name)
     if not local_namespace:
         dpath_new(namespace, namespace_name, {})

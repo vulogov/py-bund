@@ -24,16 +24,25 @@ def vmBuiltinModuleLoad(namespace, mod_name, **kw):
         return namespace
     if hasattr(module, 'NAME') is False:
         return namespace
+    if hasattr(module, 'OPTIONS') is False:
+        return namespace
     interface = getattr(module, 'INTERFACE')
     module_name = getattr(module, 'NAME')
+    module_options = getattr(module, 'OPTIONS')
     if isinstance(interface, dict) is False:
+        return namespace
+    if isinstance(module_options, dict) is False:
         return namespace
     if isinstance(module_name, str) is False:
         return namespace
     builtins = nsGet(namespace, b_path, {})
     if module_name in builtins:
         del builtins[module_name]
-    builtins[module_name] = interface
+    if module_options.get('expand', False) is False:
+        builtins[module_name] = interface
+    else:
+        for f in interface:
+            builtins[f] = interface[f]
     return namespace
 
 def vmBuiltinModule(namespace, mod_name, **kw):
@@ -42,11 +51,19 @@ def vmBuiltinModule(namespace, mod_name, **kw):
     return vmBuiltinModuleLoad(namespace, m_path, **kw)
 
 def vmBuiltinGet(namespace, name, **kw):
+    if isinstance(name, str) is not True:
+        return None
     builtins = vmSys(namespace, "builtins")
-    mod_name = name.split(".")
+    if name[0] == "/":
+        mod_name = name.split("/")[1:]
+    else:
+        mod_name = name.split(".")
     if len(mod_name) == 1:
         if mod_name[0] in builtins:
-            return dataMake(builtins[mod_name[0]], typeclass=builtin_module)
+            if isinstance(builtins[mod_name[0]], dict) is True:
+                return dataMake(builtins[mod_name[0]], typeclass=builtin_module)
+            else:
+                return dataMake(builtins[mod_name[0]], typeclass=builtin_function)
     if len(mod_name) == 2:
         if mod_name[0] in builtins:
             mod = builtins[mod_name[0]]

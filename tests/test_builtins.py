@@ -32,3 +32,11 @@ def test_b_4():
     fun(namespace)
     data = vmPull(namespace)
     assert dataIsType(data, float) == True
+
+def test_b_5():
+    namespace = bundInit()
+    namespace = vmBuiltinModule(namespace, "Time")
+    fun = dataValue(vmBuiltinGet(namespace, "/Time/Now"))
+    fun(namespace)
+    data = vmPull(namespace)
+    assert dataIsType(data, float) == True
