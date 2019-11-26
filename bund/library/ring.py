@@ -49,10 +49,10 @@ def ringRight(_ring):
         return None
     return dataValue(_ring)[1]
 
-def ringTick(_ring):
+def ringTick(_ring, n=1):
     if dataIsType(_ring, ring_type) is not True:
         return None
-    return dataValue(_ring).rotate(-1)
+    return dataValue(_ring).rotate(-n)
 
 def ringPop(_ring):
     if dataIsType(_ring, ring_type) is not True:
