@@ -55,3 +55,9 @@ def isNSID(namespace, sym):
 
 def isNamespace(namespace, name):
     return nsGet(namespace, "{}/__namespace__".format(name), False)
+
+def nsMain(namespace):
+    return nsGet(namespace, "__main__")
+
+def nsScript(namespace):
+    return nsGet(namespace, "__script__")

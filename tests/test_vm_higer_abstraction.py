@@ -4,6 +4,8 @@ import platform
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 
+from bund.library.ns import *
+from bund.library.data import *
 from bund.language import bundInit, bundParse
 from bund.vm.scripts import *
 from bund.vm.config import *
@@ -41,3 +43,8 @@ def test_vm_ha6():
     namespace = vmScript(namespace, 'bootstrap', """[/HELLO> ;;""")
     namespace = bundParse(namespace)
     assert isNamespace(namespace, "/HELLO") == True
+
+def test_vm_ha7():
+    namespace = bundInit()
+    namespace = bundParse(namespace, """2 2""")
+    assert len(nsScript(namespace)) == 2
