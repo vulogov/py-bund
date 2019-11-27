@@ -47,4 +47,9 @@ def test_vm_ha6():
 def test_vm_ha7():
     namespace = bundInit()
     namespace = bundParse(namespace, """2 2""")
-    assert len(nsScript(namespace)) == 2
+    assert len(nsScript(namespace)) == 5
+
+def test_vm_ha8():
+    namespace = bundInit()
+    namespace = bundParse(namespace, """2 2""")
+    assert len(nsScript(namespace)["script"]) == 2

@@ -66,7 +66,7 @@ def test_vm_6():
     namespace = parser("""[/HELLO> Answer <- 42 ;;""", namespace)
     local = nsGet(namespace, "/HELLO")
     debug(namespace, str(local))
-    assert len(lnsVars(local, is_internal=True)) == 4
+    assert len(lnsVars(local, is_internal=True)) == 5
 
 def test_vm_7():
     namespace = nsCreate()

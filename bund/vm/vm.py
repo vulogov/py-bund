@@ -115,4 +115,4 @@ def vmArgumentsClear(namespace, **kw):
     vmSysSet(namespace, arguments=[])
 
 def vmArguments(namespace, **kw):
-    return vmSys(namespace, "srguments", [])
+    return vmSys(namespace, "arguments", [])

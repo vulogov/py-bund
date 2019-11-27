@@ -6,8 +6,8 @@ from dpath.util import set as dpath_set
 
 def nsCreate(**kw):
     namespace = {}
-    nsSet(namespace, '__main__', {})
-    nsSet(namespace, '__script__', [])
+    nsNew(namespace, '__main__')
+    nsNew(namespace, '__script__')
     nsSet(namespace, '__namespace__', True)
     nsNew(namespace, '/bin')
     nsNew(namespace, '/custom')
@@ -31,6 +31,7 @@ def nsNew(namespace, name):
     ns = nsSet(namespace, name, {'__namespace__': True})
     nsSet(namespace, "%s/__id__" % name, str(uuid.uuid4()))
     nsSet(namespace, "%s/__stamp__" % name, time.time())
+    nsSet(namespace, "%s/__name__" % name, name)
     return ns
 
 def nsSet(namespace, name, default=None):

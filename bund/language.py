@@ -40,3 +40,6 @@ def bundParse(namespace, code=None, **kw):
     if isinstance(code, str) is False:
         return namespace
     return parser(code, namespace)
+
+def bundEval(namespace, **kw):
+    return namespace

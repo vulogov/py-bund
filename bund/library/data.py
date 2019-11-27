@@ -23,6 +23,14 @@ def dataIsType(data, typeclass):
         return None
     return data.get('type', None) == typeclass
 
+def dataType(data):
+    if data is None:
+        return None
+    if isinstance(data, dict) is not True:
+        return None
+    typeclass = data.get('type', None)
+    return typeclass.__name__
+
 def dataMake(dataobj, **kw):
     res = {}
     res["value"] = dataobj

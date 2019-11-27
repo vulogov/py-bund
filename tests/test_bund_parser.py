@@ -45,3 +45,11 @@ def test_parser_7():
 def test_parser_8():
     namespace = parser("""[/HELLO> pre <- (:+ 1 2 3 ;) ;;""")
     assert namespace['HELLO']['pre']['value'][0]['value']['value'] == "+"
+
+def test_parser_9():
+    namespace = parser("""[/HELLO> Pi <- 3.14 ;;""")
+    assert namespace['HELLO']['Pi']['ns'] == "/HELLO"
+
+def test_parser_10():
+    namespace = parser("""Pi <- 3.14""")
+    assert namespace['__main__']['Pi']['ns'] == '__main__'

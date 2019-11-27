@@ -6,13 +6,14 @@ from dpath.util import get as dpath_get
 from dpath.util import new as dpath_new
 from bund.ast.assignments import INTERFACE as assignments_INTERFACE
 from bund.library.log import *
+from bund.library.ns import isNamespace
 
 
 def parser(code, _namespace=None):
     if _namespace is None:
         namespace = {}
         dpath_new(namespace, "__main__", {})
-        dpath_new(namespace, "__script__", [])
+        dpath_new(namespace, "__script__", {})
         dpath_new(namespace, "__namespace__", True)
         dpath_new(namespace, "/bin", {})
         dpath_new(namespace, "/config", {'compiled':False})
@@ -50,10 +51,13 @@ def parseIn(namespace, code):
     return namespace
 
 def parseD(namespace, data):
+    if isNamespace(namespace, '__script__') is not True:
+        return namespace
     res = dpath_get(namespace, "__script__")
+    res["script"] = []
     for d in data:
         val = parse_value(d)
-        res.append(val)
+        res["script"].append(val)
         if val["continue"] is not True:
             return namespace
     return namespace

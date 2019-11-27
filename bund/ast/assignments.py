@@ -19,6 +19,7 @@ def DirectAssignmentDef(namespace, parsers, model, **kw):
         local_namespace = dpath_get(namespace, namespace_name)
     debug(namespace, "%(ns)s : %(name)s = %(data)s", ns=namespace_name, name=obj.name, data=str(obj.data))
     local_namespace[obj.name] = parse_value(obj.data)
+    local_namespace[obj.name]["ns"] = namespace_name
     return namespace
 
 
