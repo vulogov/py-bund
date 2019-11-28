@@ -28,6 +28,7 @@ def vmLocateSymbol(namespace, sym, **kw):
     return vmBuiltinGet(namespace, sym, **kw)
 
 def vmEvalString(namespace, w):
+    vmPush(namespace, w, raw=True)
     return namespace
 
 

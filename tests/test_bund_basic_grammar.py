@@ -135,7 +135,7 @@ def test_bund_base_grammar_NS4():
             someFile <pipe {name "/tmp/aaa"},{type file}
         ;;
         Answer <- 42
-        Pi <-* /A/B/C/D/Pi
+        Pi <link /A/B/C/D/Pi
         Main <- (
             41
             1
@@ -152,14 +152,13 @@ def test_bund_base_grammar_NS5():
             Pi <- 3.14
         ;;
         Answer <- 42
-        Pi <-* /A/B/C/D/Pi
+        Pi <link /A/B/C/D/Pi
         Main <- (
             : print
                 : +
                     41 1
                 ;
             ;
-
         )
     ;;""")
 
@@ -186,3 +185,10 @@ def test_bund_base_grammar_comment():
         Another comment
     */
     """)
+
+def test_bund_base_grammar_NS7():
+    global_repo_provider = grammar()
+    mm = metamodel_for_language("basicTypes")
+    model = mm.model_from_str("""[/A/B/C>
+        ++ <- ( A B )
+    ;;""")

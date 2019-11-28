@@ -46,7 +46,7 @@ ReversePipeDef:
 ;
 
 NameDef:
-    ID
+    ID | SPECIAL_TYPE
 ;
 
 NSID:
@@ -70,11 +70,11 @@ ReversePythonAssignmentOp:
 ;
 
 DirectLinkOp:
-    "link" | "<-*"
+    "link" | "<link"
 ;
 
 ReverseLinkOp:
-    "*->"
+    "link>"
 ;
 
 DirectPipeOp:
@@ -94,7 +94,7 @@ KV_TYPE:
 ;
 
 CODEWORD_REF_TYPE:
-    ID | NSID | SPECIAL_TYPE | VERY_SPECIAL_TYPE
+    ID | NSID | SPECIAL_TYPE
 ;
 
 LAMBDA_TYPE:
@@ -117,16 +117,37 @@ PRELIMENARY_EXECUTE_TYPE:
     ":" name=CODEWORD_REF_TYPE
 ;
 
-SPECIAL_TYPE:
-    "+" | "-" | "++" | "--" | "<" | ">" | "==" | "=" | "<=" | "=>"
+ANY_PLUS:
+    /(\+)+/
+;
+ANY_MINUS:
+    /(\-)+/
+;
+ANY_MORE:
+    /(\>)+/
+;
+ANY_LESS:
+    /(\<)+/
+;
+ANY_STAR:
+    /(\*)+/
+;
+ANY_EQ:
+    /(\=)+/
+;
+ANY_COMBO:
+    /(\+|\=|\<|\>|\?|\!|\-|\*)+(\+|\=|\<|\>|\?|\!|\-|\*)+/
+;
+ANY_TRIPLE:
+    /(\+|\-|\*|\=|\<|\>|\?|\!)+(\=|\<|\>|\?|\!|\*)+(\+|\-|\=|\<|\>|\?|\!|\*)+/
 ;
 
-VERY_SPECIAL_TYPE:
-    "===" | "+++" | "---" | "**" | "***"
+SPECIAL_TYPE:
+    ANY_COMBO | ANY_TRIPLE | ANY_STAR | ANY_MINUS | ANY_MORE | ANY_LESS | ANY_EQ | ANY_PLUS
 ;
 
 DataDef:
-    ID | BASETYPE | LIST_TYPE | KV_TYPE | LAMBDA_TYPE | REF_TYPE | CURRY_TYPE | PRELIMENARY_EXECUTE_TYPE | DO_EXECUTE_TYPE | NSID | SPECIAL_TYPE | VERY_SPECIAL_TYPE
+    ID | BASETYPE | LIST_TYPE | KV_TYPE | LAMBDA_TYPE | REF_TYPE | CURRY_TYPE | PRELIMENARY_EXECUTE_TYPE | DO_EXECUTE_TYPE | NSID | SPECIAL_TYPE
 ;
 
 Comment:
