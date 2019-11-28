@@ -4,6 +4,26 @@ from bund.vm.config import vmConfigGet
 from bund.vm.python import pyImport
 from bund.library.ns import *
 from bund.library.data import *
+from bund.vm.error import vmError
+
+
+def vmBuiltinModulesInit(namespace, **kw):
+    lang_name = vmLang(namespace, **kw)
+    search_path = kw.get('path', None)
+    module_prefix = kw.get("mod_prefix", "bund.vm.lang")
+    if search_path is None:
+        search_path = vmConfigGet(namespace, "builtinmodules.path", sys.path)
+    sys.path = list(set([*sys.path, *search_path]))
+    m_path = "{}.{}".format(module_prefix, lang_name)
+    modules = pyImport(namespace, m_path, **kw)
+    if len(modules) != 1:
+        vmError(namespace, msg="Error during builtin modules initialization")
+        return namespace
+    if hasattr(modules[0], "MODULES") is True:
+        mod_list = getattr(modules[0], "MODULES")
+        for m in mod_list:
+            vmBuiltinModuleLoad(namespace, m, **kw)
+    return namespace
 
 
 
@@ -13,9 +33,6 @@ def vmBuiltinModuleLoad(namespace, mod_name, **kw):
     lang = nsGet(namespace, "/sys/%s" % lang_name, None)
     if lang is None:
         return namespace
-    search_path = kw.get('path', None)
-    if search_path is None:
-        search_path = vmConfigGet(namespace, "builtinmodules.path", sys.path)
     modules = pyImport(namespace, mod_name)
     if len(modules) == 0:
         return namespace
@@ -71,3 +88,6 @@ def vmBuiltinGet(namespace, name, **kw):
                 if mod_name[1] in mod:
                     return dataMake(mod[mod_name[1]], typeclass=builtin_function)
     return None
+
+def vmBuiltinList(namespace):
+    return  vmSys(namespace, "builtins")

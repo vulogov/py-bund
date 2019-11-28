@@ -5,6 +5,7 @@ from bund.vm.localns import *
 from bund.vm.template import *
 from bund.vm.runtime_vars import vmRtGet, vmRtSet
 from bund.vm.scripts import *
+from bund.vm.builtins import vmBuiltinModulesInit
 from bund.library.ns import *
 from bund.library.log import *
 from bund.library.data import *
@@ -16,6 +17,7 @@ def bundInit(**kw):
     namespace = vmNew(namespace)
     namespace = vmConfigNew(namespace)
     namespace = vmPipesDefaultInit(namespace)
+    namespace = vmBuiltinModulesInit(namespace, **kw)
     return namespace
 
 def bundParse(namespace, code=None, **kw):

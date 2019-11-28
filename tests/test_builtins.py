@@ -40,3 +40,7 @@ def test_b_5():
     fun(namespace)
     data = vmPull(namespace)
     assert dataIsType(data, float) == True
+
+def test_b_6():
+    namespace = bundInit()
+    assert len(vmBuiltinList(namespace)) > 0
