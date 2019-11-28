@@ -135,6 +135,9 @@ ANY_STAR:
 ANY_EQ:
     /(\=)+/
 ;
+ANY_PERCENT:
+    /\%/
+;
 ANY_COMBO:
     /(\+|\=|\<|\>|\?|\!|\-|\*)+(\+|\=|\<|\>|\?|\!|\-|\*)+/
 ;
@@ -143,7 +146,7 @@ ANY_TRIPLE:
 ;
 
 SPECIAL_TYPE:
-    ANY_COMBO | ANY_TRIPLE | ANY_STAR | ANY_MINUS | ANY_MORE | ANY_LESS | ANY_EQ | ANY_PLUS
+    ANY_COMBO | ANY_TRIPLE | ANY_STAR | ANY_PERCENT | ANY_MINUS | ANY_MORE | ANY_LESS | ANY_EQ | ANY_PLUS 
 ;
 
 DataDef:

@@ -107,6 +107,9 @@ def vmStack(namespace, **kw):
         next = vmPeek(namespace, **kw)
         if dataType(next).__class__.__name__ == 'PRELIMENARY_EXECUTE_TYPE':
             break
+        if dataValue(next) == "%":
+            vmPull(namespace, **kw)
+            break
         next = vmPull(namespace, **kw)
         local_namespace['arguments'].append(next)
     return namespace

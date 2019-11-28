@@ -14,3 +14,10 @@ def test_eval_1():
     namespace = vmEval(namespace, "__script__")
     namespace = vmStack(namespace)
     assert len(vmArguments(namespace)) == 2
+
+def test_eval_2():
+    namespace = bundInit()
+    namespace = bundParse(namespace, """41 1 % 1 2 3""")
+    namespace = vmEval(namespace, "__script__")
+    namespace = vmStack(namespace)
+    assert len(vmArguments(namespace)) == 3
