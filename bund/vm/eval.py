@@ -1,4 +1,4 @@
-from bund.vm.vm import vmGet, vmPull, vmPush, vmLang
+from bund.vm.vm import vmGet, vmPull, vmPush, vmLang, vmStack
 from bund.vm.error import vmError
 from bund.vm.builtins import vmBuiltinGet
 from bund.vm.localns import *
@@ -8,27 +8,49 @@ from bund.library.data import *
 
 
 def vmLocateSymbol(namespace, sym, **kw):
-    if isNSID(sym) is True:
-        return nsGet(namespace, sym, None)
+    is_nsid = isNSID(namespace, sym)
+    if is_nsid is True:
+        res = nsGet(namespace, sym, None)
+        if res is not None and isinstance(res, dict):
+            return res
     localns = kw.get("ns", None)
+    if localns is not None:
+        localns = nsGet(namespace, localns)
+    if isinstance(localns, dict) is False:
+        localns = nsGet(namespace, "__main__")
     if localns is not None and isinstance(localns, dict) is True:
         res = lnsGet(localns, sym, **kw)
         if res is not None:
             return res
-    localns = nsGet(namespace, "__main__")
-    if localns is not None and isinstance(localns, dict) is True:
-        res = lnsGet(localns, sym, **kw)
-        if res is not None:
-            return res
-    search_path = vmConfigGet(namespace, "/config/path", ["/bin", "/custom"])
-    for s in search_path:
-        res = nsGet(namespace, "{}/{}".format(s, sym))
-        if res is not None:
-            return res
+    if is_nsid is False:
+        search_path = vmConfigGet(namespace, "path", ["/bin", "/custom"])
+        for s in search_path:
+            res = nsGet(namespace, "{}/{}".format(s, sym))
+            if res is not None:
+                return res
     return vmBuiltinGet(namespace, sym, **kw)
 
-def vmEvalString(namespace, w):
-    vmPush(namespace, w, raw=True)
+def vmEvalString(namespace, w, **kw):
+    if dataValue(w) == ";":
+        vmStack(namespace, **kw)
+        _fun = vmPull(namespace, **kw)
+        if dataIsType(_fun, 'PRELIMENARY_EXECUTE_TYPE') is not True:
+            vmPush(namespace, _fun, raw=True)
+            vmPush(namespace, w, raw=True)
+            return namespace
+        else:
+            _fun = dataValue(_fun).name
+    else:
+        _fun = dataValue(w)
+    fun = vmLocateSymbol(namespace, _fun, **kw)
+    if fun is None:
+        vmPush(namespace, w, raw=True)
+        return namespace
+    if dataIsType(fun, 'builtin_function') is True or dataIsType(fun, 'LAMBDA_TYPE'):
+        vmStack(namespace, **kw)
+        dataValue(fun)(namespace)
+    else:
+        vmPush(namespace, w, raw=True)
     return namespace
 
 
@@ -42,12 +64,13 @@ def vmEvalCtx(namespace, ctx, **kw):
         elif dataIsType(w, float):
             vmPush(namespace, w, raw=True)
         elif dataIsType(w, str):
-            vmEvalString(namespace, w)
+            vmEvalString(namespace, w, **kw)
         else:
             vmPush(namespace, w, raw=True)
     return namespace
 
 def vmEval(namespace, path, **kw):
+    kw["ns"] = path
     lang = vmLang(namespace, **kw)
     local_ns = nsGet(namespace, path)
     if local_ns is None or isinstance(local_ns, dict) is not True:

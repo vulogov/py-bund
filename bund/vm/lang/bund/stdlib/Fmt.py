@@ -1,4 +1,5 @@
 import time
+import pprint
 from bund.vm.vm import vmPush, vmPull
 from bund.vm.error import vmError
 from bund.library.ns import *
@@ -10,9 +11,19 @@ OPTIONS={'expand': False}
 NAME = "Fmt"
 
 def actual_print(namespace):
-    data = vmPull(namespace)
+    data = vmArguments(namespace)
     if data is not None:
-        print(dataValue(data))
+        for a in data:
+            pprint.pprint(dataValue(a))
+    return namespace
+
+def actual_println(namespace):
+    data = vmArguments(namespace)
+    if data is not None:
+        for a in data:
+            print(dataValue(a))
+            print('\n')
     return namespace
 
 INTERFACE["print"] = actual_print
+INTERFACE["println"] = actual_print

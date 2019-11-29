@@ -2,6 +2,8 @@ import time
 class builtin_module(object): pass
 class builtin_function(object): pass
 
+class namespace_type: pass
+
 def isContinue(data):
     if data is None:
         return True
@@ -21,14 +23,21 @@ def dataIsType(data, typeclass):
         return None
     if isinstance(data, dict) is not True:
         return None
-    return data.get('type', None) == typeclass
+    if '__namespace__' in data and data['__namespace__'] is True:
+        return  namespace_type
+    if isinstance(typeclass, str) is True:
+        return data.get('type', None).__name__ == typeclass
+    else:
+        return data.get('type', None) == typeclass
 
 def dataType(data):
     if data is None:
         return None
     if isinstance(data, dict) is not True:
         return None
-    typeclass = data.get('type', None)
+    if '__namespace__' in data and data['__namespace__'] is True:
+        return 'namespace_type'
+    typeclass = data.get('type', type(None))
     return typeclass.__name__
 
 def dataMake(dataobj, **kw):

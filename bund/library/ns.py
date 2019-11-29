@@ -4,6 +4,8 @@ from dpath.util import get as dpath_get
 from dpath.util import new as dpath_new
 from dpath.util import set as dpath_set
 
+class namespace_type: pass
+
 def nsCreate(**kw):
     namespace = {}
     nsNew(namespace, '__main__')

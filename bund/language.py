@@ -22,13 +22,12 @@ def bundInit(**kw):
 
 def bundParse(namespace, code=None, **kw):
     is_script = kw.get("script", False)
+    orig_code = code
     if isinstance(code, str):
         if is_script is True:
             code = vmScriptGet(namespace, code)
-        elif isNSID(namespace, code) is True:
+        if code is None and isNSID(namespace, code) is True:
             code = nsGet(namespace, code, None)
-        else:
-            pass
     elif code is None:
         scripts_list = vmConfigGet(namespace, "main.scripts.path")
         for _code in scripts_list:
@@ -38,7 +37,7 @@ def bundParse(namespace, code=None, **kw):
     else:
         return namespace
     if code is None:
-        return namespace
+        code = orig_code
     if isinstance(code, str) is False:
         return namespace
     return parser(code, namespace)

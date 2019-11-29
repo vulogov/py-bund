@@ -44,3 +44,10 @@ def test_b_5():
 def test_b_6():
     namespace = bundInit()
     assert len(vmBuiltinList(namespace)) > 0
+
+def test_b_7():
+    namespace = bundInit()
+    fun = dataValue(vmBuiltinGet(namespace, "/Time/Now"))
+    fun(namespace)
+    data = vmPull(namespace)
+    assert dataIsType(data, float) == True
