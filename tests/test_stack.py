@@ -32,3 +32,17 @@ def test_stack_3():
     namespace = vmEval(namespace, "__script__")
     size = vmPull(namespace)
     assert dataValue(size) == 3
+
+def test_stack_4():
+    namespace = bundInit()
+    namespace = bundParse(namespace, """2 3 NOOP 42 ==?""")
+    namespace = vmEval(namespace, "__script__")
+    size = vmPull(namespace)
+    assert dataValue(size) == 1
+
+def test_stack_5():
+    namespace = bundInit()
+    namespace = bundParse(namespace, """1 2 3 % 2 3 NOOP 42 ==?""")
+    namespace = vmEval(namespace, "__script__")
+    size = vmPull(namespace)
+    assert dataValue(size) == 4
