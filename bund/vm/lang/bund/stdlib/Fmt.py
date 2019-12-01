@@ -1,6 +1,7 @@
 import time
 import pprint
-from bund.vm.vm import vmPush, vmPull
+from bund.vm.vm import vmPush, vmPull, vmArguments
+from bund.library.data import *
 from bund.vm.error import vmError
 from bund.library.ns import *
 from bund.library.data import dataMake
@@ -25,5 +26,13 @@ def actual_println(namespace):
             print('\n')
     return namespace
 
+actual_last_stack = True
+def actual_last(namespace):
+    data = vmPull(namespace)
+    if data is not None:
+        pprint.pprint(dataValue(data))
+
+
 INTERFACE["print"] = actual_print
 INTERFACE["println"] = actual_print
+INTERFACE["printlast"] = actual_last

@@ -67,6 +67,9 @@ def vmEvalCtx(namespace, ctx, **kw):
             vmPush(namespace, w, raw=True)
         elif dataIsType(w, str):
             vmEvalString(namespace, w, **kw)
+        elif dataIsType(w, 'LAMBDA_TYPE'):
+            vmPush(namespace, '%')
+            vmEvalCtx(namespace, dataValue(w), **kw)
         else:
             vmPush(namespace, w, raw=True)
     return namespace
