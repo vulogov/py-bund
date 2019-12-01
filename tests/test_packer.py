@@ -11,5 +11,4 @@ def test_pack_1():
 
 def test_pack_2():
     d = pack({"Привет":"мир"}, use_bin_type=True)
-    print(unpack(d))
     assert unpack(d)["Привет"] == "мир"

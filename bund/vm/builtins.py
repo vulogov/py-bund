@@ -1,4 +1,5 @@
 import sys
+import types
 from bund.vm.vm import vmLang, vmSys
 from bund.vm.config import vmConfigGet
 from bund.vm.python import pyImport
@@ -56,10 +57,21 @@ def vmBuiltinModuleLoad(namespace, mod_name, **kw):
     if module_name in builtins:
         del builtins[module_name]
     if module_options.get('expand', False) is False:
-        builtins[module_name] = interface
+        _interface = {}
+        for i in interface:
+            stack_option = "{}_stack".format(interface[i].__name__)
+            if hasattr(module, stack_option) is True:
+                _interface[i] = {'interface':interface[i], 'keep_stack':getattr(module, stack_option)}
+            else:
+                _interface[i] = {'interface':interface[i], 'keep_stack': False}
+        builtins[module_name] = {'interface': _interface}
     else:
         for f in interface:
-            builtins[f] = interface[f]
+            stack_option = "{}_stack".format(interface[f].__name__)
+            if hasattr(module, stack_option) is True:
+                builtins[f] = {'interface': interface[f], 'keep_stack':getattr(module, stack_option)}
+            else:
+                builtins[f] = {'interface': interface[f], 'keep_stack':False}
     return namespace
 
 def vmBuiltinModule(namespace, mod_name, **kw):
@@ -77,16 +89,17 @@ def vmBuiltinGet(namespace, name, **kw):
         mod_name = name.split(".")
     if len(mod_name) == 1:
         if mod_name[0] in builtins:
-            if isinstance(builtins[mod_name[0]], dict) is True:
-                return dataMake(builtins[mod_name[0]], typeclass=builtin_module)
+            interface = builtins[mod_name[0]]['interface']
+            if isinstance(interface, dict) is True:
+                return dataMake(interface, typeclass=builtin_module, keep_stack=builtins[mod_name[0]].get("keep_stack", False))
             else:
-                return dataMake(builtins[mod_name[0]], typeclass=builtin_function)
+                return dataMake(interface, typeclass=builtin_function, keep_stack=builtins[mod_name[0]].get("keep_stack", False))
     if len(mod_name) == 2:
         if mod_name[0] in builtins:
-            mod = builtins[mod_name[0]]
+            mod = builtins[mod_name[0]]['interface']
             if isinstance(mod, dict) is True:
                 if mod_name[1] in mod:
-                    return dataMake(mod[mod_name[1]], typeclass=builtin_function)
+                    return dataMake(mod[mod_name[1]]['interface'], typeclass=builtin_function, keep_stack=mod[mod_name[1]]['keep_stack'])
     return None
 
 def vmBuiltinList(namespace):
