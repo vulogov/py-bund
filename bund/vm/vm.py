@@ -1,6 +1,7 @@
 import time
 import uuid
 import platform
+import copy
 from socket import gethostname
 from queue import LifoQueue
 from bund.vm.config import vmConfigNew
@@ -119,3 +120,12 @@ def vmArgumentsClear(namespace, **kw):
 
 def vmArguments(namespace, **kw):
     return vmSys(namespace, "arguments", [])
+
+def vmUnargument(namespaced, **kw):
+    args = vmArguments()
+    args.reverse()
+    for a in args:
+        _kw = copy.copy()
+        _kw["raw"] = True
+        vmPush(namespace, a, **_kw)
+    return namespace

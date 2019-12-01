@@ -1,4 +1,5 @@
 from bund.vm.vm import vmGet, vmPull, vmPush, vmLang, vmStack, vmArgumentsClear
+from bund.vm.vm import vmUnargument
 from bund.vm.error import vmError
 from bund.vm.builtins import vmBuiltinGet
 from bund.vm.localns import *
@@ -36,6 +37,7 @@ def vmEvalString(namespace, w, **kw):
         _fun = vmPull(namespace, **kw)
         if dataIsType(_fun, 'PRELIMENARY_EXECUTE_TYPE') is not True:
             vmPush(namespace, _fun, raw=True)
+            vmUnargument(namespace, **kw)
             vmPush(namespace, w, raw=True)
             return namespace
         else:

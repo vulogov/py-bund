@@ -46,3 +46,17 @@ def test_stack_5():
     namespace = vmEval(namespace, "__script__")
     size = vmPull(namespace)
     assert dataValue(size) == 4
+
+def test_stack_6():
+    namespace = bundInit()
+    namespace = bundParse(namespace, """41 1 ( 1 2 3 10 15 12 ==?)""")
+    namespace = vmEval(namespace, "__script__")
+    size = vmPull(namespace)
+    assert dataValue(size) == 6
+
+def test_stack_7():
+    namespace = bundInit()
+    namespace = bundParse(namespace, """41 1 (==> 1 2 3 10 15 12 ==?)""")
+    namespace = vmEval(namespace, "__script__")
+    size = vmPull(namespace)
+    assert dataValue(size) == 8
