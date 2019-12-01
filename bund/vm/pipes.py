@@ -8,6 +8,7 @@ from bund.vm.python import pyImport
 def vmPipesDefaultInit(namespace, **kw):
     vmPipeMake(namespace, "clock", type="clock")
     vmPipeMake(namespace, "random", type="random")
+    vmPipeMake(namespace, "process", type="process_info")
     return namespace
 
 def vmPipeMake(namespace, name=None, **kw):

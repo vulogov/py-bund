@@ -59,3 +59,9 @@ def test_pipe_7():
     answer = pipeRead(namespace, pipe)
     assert dataValue(answer) > 0.0
     assert dataValue(answer) < 1.0
+
+def test_pipe_8():
+    namespace = bundInit()
+    pipe = vmPipeGet(namespace, "process")
+    answer = pipeRead(namespace, pipe)
+    assert isinstance(dataValue(answer)['cpu_times'].user, float)
