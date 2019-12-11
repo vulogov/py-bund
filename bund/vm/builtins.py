@@ -87,9 +87,11 @@ def vmBuiltinGet(namespace, name, **kw):
         mod_name = name.split("/")[1:]
     else:
         mod_name = name.split(".")
+    print(32,mod_name[0], builtins.keys())
     if len(mod_name) == 1:
         if mod_name[0] in builtins:
             interface = builtins[mod_name[0]]['interface']
+            print(33, interface)
             if isinstance(interface, dict) is True:
                 return dataMake(interface, typeclass=builtin_module, keep_stack=builtins[mod_name[0]].get("keep_stack", False))
             else:

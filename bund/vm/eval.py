@@ -1,5 +1,5 @@
 from bund.vm.vm import vmGet, vmPull, vmPush, vmLang, vmStack, vmArgumentsClear
-from bund.vm.vm import vmUnargument
+from bund.vm.vm import vmUnargument, vmArguments
 from bund.vm.error import vmError
 from bund.vm.builtins import vmBuiltinGet
 from bund.vm.localns import *
@@ -45,14 +45,16 @@ def vmEvalString(namespace, w, **kw):
     else:
         _fun = dataValue(w)
     fun = vmLocateSymbol(namespace, _fun, **kw)
+    print(34,fun, _fun)
     if fun is None:
         vmPush(namespace, w, raw=True)
         return namespace
     if dataIsType(fun, 'builtin_function') is True or dataIsType(fun, 'LAMBDA_TYPE'):
         if fun.get('keep_stack', False) is not True:
+            print(22, vmArguments(namespace))
+            vmArgumentsClear(namespace, **kw)
             vmStack(namespace, **kw)
         dataValue(fun)(namespace)
-        vmArgumentsClear(namespace, **kw)
     else:
         vmPush(namespace, w, raw=True)
     return namespace

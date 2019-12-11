@@ -32,11 +32,14 @@ def test_parser_6():
     namespace = parser("""[/HELLO> Lambda <- (1 2 +) ;;""")
     assert namespace['HELLO']['Lambda']['value'][2]['value'] == '+'
 
-def test_parser_7():
-    namespace = parser("""[/HELLO> LambdaRef <- `(1 2 +) ;;""")
-    assert namespace['HELLO']['LambdaRef']['value'][0]['value'] == 1
+def test_parser_6_1():
+    namespace = parser("""[/HELLO> Cond <- (? (1 2 ==) ("Nooo" println) ?) ;;""")
 
 def test_parser_7():
+    namespace = parser("""[/HELLO> LambdaRef <- `(1 2 +) ;;""")
+    assert namespace['HELLO']['LambdaRef']['value']['value'][0]['value'] == 1
+
+def test_parser_7_1():
     namespace = parser("""[/HELLO> theCurry <- (Answer . 42) ;;""")
     assert len(namespace['HELLO']['theCurry']['value']) == 2
     assert namespace['HELLO']['theCurry']['value'][0] == "Answer"

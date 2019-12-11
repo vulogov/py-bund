@@ -111,6 +111,8 @@ def vmStack(namespace, **kw):
         if dataValue(next) == "%":
             vmPull(namespace, **kw)
             break
+        if 'take_only' in kw and dataIsType(next, kw.get('take_only')) is not True:
+            break
         next = vmPull(namespace, **kw)
         local_namespace['arguments'].append(next)
     return namespace
