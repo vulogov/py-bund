@@ -23,4 +23,21 @@ def actually_plus(namespace, **kw):
     vmPush(namespace, c)
     return namespace
 
+def actually_minus(namespace, **kw):
+    args = vmArguments(namespace, **kw)
+    if len(args) == 0:
+        return namespace
+    args_type = dataTypeClass(args[0])
+    if args_type is int:
+        c = args[0]
+    elif args_type is float:
+        c = args[0]
+    else:
+        vmError("Unsuitable '-' for {}".format(args))
+    for e in args:
+        c -= dataValue(e)
+    vmPush(namespace, c)
+    return namespace
+
 INTERFACE["+"] = actually_plus
+INTERFACE["-"] = actually_minus

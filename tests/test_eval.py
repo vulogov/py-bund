@@ -4,7 +4,7 @@ import platform
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import pytest
 
-from bund.language import bundInit, bundParse
+from bund.language import bundInit, bundParse, bundEval
 from bund.vm.eval import vmEval
 from bund.vm.vm import vmStack, vmArguments
 from bund.library.data import *
@@ -39,3 +39,10 @@ def test_eval_4():
     namespace = vmEval(namespace, "__script__")
     namespace = vmStack(namespace)
     assert dataType(vmArguments(namespace)[0]) == 'float'
+
+def test_eval_5():
+    namespace = bundInit()
+    namespace = bundParse(namespace, "/Time/Now")
+    namespace = bundEval(namespace)
+    namespace = vmStack(namespace)
+    #assert dataType(vmArguments(namespace)[0]) == 'float'
