@@ -51,9 +51,8 @@ def vmEvalString(namespace, w, **kw):
         return namespace
     if dataIsType(fun, 'builtin_function') is True or dataIsType(fun, 'LAMBDA_TYPE'):
         if fun.get('keep_stack', False) is not True:
-            print(22, vmArguments(namespace))
-            vmArgumentsClear(namespace, **kw)
             vmStack(namespace, **kw)
+            vmArgumentsClear(namespace, **kw)
         dataValue(fun)(namespace)
     else:
         vmPush(namespace, w, raw=True)

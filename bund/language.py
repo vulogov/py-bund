@@ -1,6 +1,7 @@
 from bund.ast.parser import parser
 from bund.vm.vm import *
 from bund.vm.config import *
+from bund.vm.eval import *
 from bund.vm.localns import *
 from bund.vm.template import *
 from bund.vm.runtime_vars import vmRtGet, vmRtSet
@@ -43,5 +44,20 @@ def bundParse(namespace, code=None, **kw):
     return parser(code, namespace)
 
 def bundEval(namespace, **kw):
-
+    _kw = copyKW(kw)
+    bootstrap = vmConfigGet(namespace, "bootstrap")
+    for b in bootstrap:
+        _b = nsGet(namespace, b)
+        if _b is not None:
+            namespace = vmEvalCtx(namespace, _b, **_kw)
+    if isNamespace(namespace, nsScript(namespace)) is True:
+        if "script" in namespace["__script__"] and len(nsScript(namespace)["script"]) > 0:
+            return vmEval(namespace, "__script__", _**_kw)
+    if isNamespace(namespace, nsMain(namespace)) is True:
+        if "Main" in nsMain(namespace):
+            return vmEvalCtx(namespace, nsMain(namespace)["Main"], **_kw)
+    for fun in vmConfigGet(namespace, "main.path"):
+        _fun = nsGet(namespace, b)
+        if _fun is not None:
+            return  vmEvalCtx(namespace, _fun, **_kw)
     return namespace
